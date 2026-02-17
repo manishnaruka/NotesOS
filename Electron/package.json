@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A production-ready notes app built with Electron, React, and Firebase",
   "main": "./out/main/index.js",
-  "author": "TMX",
+  "author": {
+    "name": "TMX",
+    "email": "manishnaruka123@gmail.com"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
