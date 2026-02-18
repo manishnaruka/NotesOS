@@ -12,8 +12,13 @@ export function useAuth() {
       setUser(firebaseUser)
 
       if (firebaseUser?.email) {
-        const result = await checkUserAllowed(firebaseUser.email)
-        setAuthorization(result.allowed, result.role)
+        try {
+          const result = await checkUserAllowed(firebaseUser.email)
+          setAuthorization(result.allowed, result.role)
+        } catch (err) {
+          console.error('Failed to check user authorization:', err)
+          setAuthorization(false, null)
+        }
       } else {
         setAuthorization(null, null)
       }

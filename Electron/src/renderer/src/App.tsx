@@ -13,7 +13,7 @@ import logoIcon from './assets/logo_icon.png'
 
 export default function App() {
   const { user, loading: authLoading, role, authorized } = useAuth()
-  const { notes, loading } = useNotes(user?.uid ?? '')
+  const { notes, loading } = useNotes()
   const { selectedNoteId, setSelectedNoteId } = useNoteStore()
   const { note: activeNote } = useNote(selectedNoteId)
 
@@ -83,7 +83,7 @@ export default function App() {
     return <LoginScreen />
   }
 
-  if (!authorized) {
+  if (authorized === false) {
     return <UnauthorizedScreen email={user.email || 'Unknown'} />
   }
 

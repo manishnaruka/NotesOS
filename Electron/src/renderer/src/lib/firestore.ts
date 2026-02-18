@@ -82,13 +82,11 @@ export async function togglePinNote(noteId: string, isPinned: boolean, user: Use
 }
 
 export function subscribeToNotes(
-  userId: string,
   callback: (notes: Note[]) => void,
   onError: (error: Error) => void
 ): Unsubscribe {
   const q = query(
     collection(db, NOTES_COLLECTION),
-    where('userId', '==', userId),
     where('isDeleted', '==', false)
   )
 

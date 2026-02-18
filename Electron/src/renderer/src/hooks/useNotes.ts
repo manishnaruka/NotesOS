@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { subscribeToNotes } from '../lib/firestore'
 import type { Note } from '../types/note'
 
-export function useNotes(userId: string) {
+export function useNotes() {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -10,7 +10,6 @@ export function useNotes(userId: string) {
   useEffect(() => {
     setLoading(true)
     const unsubscribe = subscribeToNotes(
-      userId,
       (notesList) => {
         setNotes(notesList)
         setLoading(false)
@@ -21,7 +20,7 @@ export function useNotes(userId: string) {
       }
     )
     return () => unsubscribe()
-  }, [userId])
+  }, [])
 
   return { notes, loading, error }
 }

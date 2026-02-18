@@ -21,7 +21,11 @@ const MIME_TYPES: Record<string, string> = {
   '.map': 'application/json'
 }
 
-let serverPort = 0
+// Fixed port ensures a stable origin (http://localhost:PORT) across restarts,
+// which is required for Firebase auth persistence (localStorage/IndexedDB is keyed by origin).
+const LOCAL_SERVER_PORT = 49821
+
+let serverPort = LOCAL_SERVER_PORT
 
 function startLocalServer(): Promise<number> {
   return new Promise((resolve) => {
@@ -47,10 +51,8 @@ function startLocalServer(): Promise<number> {
       }
     })
 
-    server.listen(0, 'localhost', () => {
-      const addr = server.address()
-      const port = typeof addr === 'object' && addr ? addr.port : 0
-      resolve(port)
+    server.listen(LOCAL_SERVER_PORT, 'localhost', () => {
+      resolve(LOCAL_SERVER_PORT)
     })
   })
 }
