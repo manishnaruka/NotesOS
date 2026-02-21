@@ -7,10 +7,11 @@ interface NoteListProps {
   loading: boolean
   onDelete: (noteId: string) => void
   onTogglePin: (noteId: string, isPinned: boolean) => void
+  onAssign: (note: Note) => void
   isSuperAdmin: boolean
 }
 
-export function NoteList({ notes, loading, onDelete, onTogglePin, isSuperAdmin }: NoteListProps) {
+export function NoteList({ notes, loading, onDelete, onTogglePin, onAssign, isSuperAdmin }: NoteListProps) {
   const searchQuery = useNoteStore((s) => s.searchQuery)
 
   const filteredNotes = searchQuery
@@ -53,6 +54,7 @@ export function NoteList({ notes, loading, onDelete, onTogglePin, isSuperAdmin }
           note={note}
           onDelete={onDelete}
           onTogglePin={onTogglePin}
+          onAssign={onAssign}
           isSuperAdmin={isSuperAdmin}
         />
       ))}

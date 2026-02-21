@@ -13,11 +13,10 @@ import logoIcon from './assets/logo_icon.png'
 
 export default function App() {
   const { user, loading: authLoading, role, authorized } = useAuth()
-  const { notes, loading } = useNotes()
+  const isSuperAdmin = role === 'superadmin'
+  const { notes, loading } = useNotes(user, isSuperAdmin)
   const { selectedNoteId, setSelectedNoteId } = useNoteStore()
   const { note: activeNote } = useNote(selectedNoteId)
-
-  const isSuperAdmin = role === 'superadmin'
 
   const handleNewNote = useCallback(async () => {
     if (!user || role !== 'superadmin') return

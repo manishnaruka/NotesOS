@@ -42,6 +42,7 @@ export async function createNote(user: User): Promise<string> {
     isDeleted: false,
     userId: user.uid,
     tags: [],
+    assignedTo: [],
     createdBy: userInfo,
     lastEditedBy: userInfo
   })
@@ -81,14 +82,32 @@ export async function togglePinNote(noteId: string, isPinned: boolean, user: Use
   })
 }
 
+/** Superadmin sets which users (by email) can see a note. */
+export async function assignNoteToUsers(noteId: string, userEmails: string[]): Promise<void> {
+  const noteRef = doc(db, NOTES_COLLECTION, noteId)
+  await updateDoc(noteRef, {
+    assignedTo: userEmails.map((e) => e.toLowerCase())
+  })
+}
+
+/**
+ * Subscribe to notes.
+ * - Superadmin sees ALL non-deleted notes.
+ * - Other users only see notes where their email is in `assignedTo`.
+ */
 export function subscribeToNotes(
   callback: (notes: Note[]) => void,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
+  userEmail: string,
+  isSuperAdmin: boolean
 ): Unsubscribe {
-  const q = query(
-    collection(db, NOTES_COLLECTION),
-    where('isDeleted', '==', false)
-  )
+  const q = isSuperAdmin
+    ? query(collection(db, NOTES_COLLECTION), where('isDeleted', '==', false))
+    : query(
+        collection(db, NOTES_COLLECTION),
+        where('isDeleted', '==', false),
+        where('assignedTo', 'array-contains', userEmail.toLowerCase())
+      )
 
   return onSnapshot(
     q,

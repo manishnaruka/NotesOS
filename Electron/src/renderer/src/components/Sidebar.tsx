@@ -4,6 +4,7 @@ import type { Note, UserRole } from '../types/note'
 import { SearchBar } from './SearchBar'
 import { NoteList } from './NoteList'
 import { UserManagement } from './UserManagement'
+import { NoteAssignModal } from './NoteAssignModal'
 import { ThemeToggle } from './ThemeToggle'
 import { signOut } from '../hooks/useAuth'
 import { Plus, Users, LogOut } from 'lucide-react'
@@ -31,6 +32,7 @@ export function Sidebar({
 }: SidebarProps) {
   const [signingOut, setSigningOut] = useState(false)
   const [showUserManagement, setShowUserManagement] = useState(false)
+  const [assigningNote, setAssigningNote] = useState<Note | null>(null)
 
   const handleSignOut = async () => {
     setSigningOut(true)
@@ -43,11 +45,12 @@ export function Sidebar({
   }
 
   const canManageUsers = role === 'superadmin' || role === 'admin'
+  const isMac = window.electronAPI?.platform === 'darwin'
 
   return (
     <>
       <aside className="w-72 h-full glass flex flex-col select-none">
-        <div className="flex items-center justify-between px-3 pt-3 pb-1">
+        <div className={`flex items-center justify-between pr-3 ${isMac ? 'pl-[76px]' : 'pl-3'} pt-3 pb-1`}>
           <h1 className="text-lg font-semibold text-[var(--text-primary)]">Notes</h1>
           {isSuperAdmin && (
             <button
@@ -66,6 +69,7 @@ export function Sidebar({
           loading={loading}
           onDelete={onDelete}
           onTogglePin={onTogglePin}
+          onAssign={setAssigningNote}
           isSuperAdmin={isSuperAdmin}
         />
         <div className="px-3 py-2 border-t border-[var(--border)]">
@@ -118,6 +122,13 @@ export function Sidebar({
           currentUserEmail={user.email!}
           currentUserRole={role}
           onClose={() => setShowUserManagement(false)}
+        />
+      )}
+
+      {assigningNote && (
+        <NoteAssignModal
+          note={assigningNote}
+          onClose={() => setAssigningNote(null)}
         />
       )}
     </>

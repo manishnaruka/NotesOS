@@ -38,6 +38,8 @@ export interface Note {
   tags: string[]
   createdBy: NoteUserInfo
   lastEditedBy: NoteUserInfo
+  /** Emails of users this note is visible to. Empty = only superadmin can see it. */
+  assignedTo: string[]
 }
 
 export type NoteCreateInput = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>
