@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Electron macOS drag regions */
+.drag-region { -webkit-app-region: drag; }
+.no-drag { -webkit-app-region: no-drag; }
+
 /* ============================================================
    THEME VARIABLES — 4 variants
    ============================================================ */

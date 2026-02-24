@@ -50,12 +50,12 @@ export function Sidebar({
   return (
     <>
       <aside className="w-72 h-full glass flex flex-col select-none">
-        <div className={`flex items-center justify-between pr-3 ${isMac ? 'pl-[76px]' : 'pl-3'} pt-3 pb-1`}>
+        <div className={`flex items-center justify-between pr-3 ${isMac ? 'pl-[76px] drag-region' : 'pl-3'} pt-3 pb-1`}>
           <h1 className="text-lg font-semibold text-[var(--text-primary)]">Notes</h1>
           {isSuperAdmin && (
             <button
               onClick={onNewNote}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-white glass-btn-primary rounded-lg"
+              className={`flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-white glass-btn-primary rounded-lg${isMac ? ' no-drag' : ''}`}
               title="New Note (Ctrl+N)"
             >
               <Plus size={14} strokeWidth={2.5} />

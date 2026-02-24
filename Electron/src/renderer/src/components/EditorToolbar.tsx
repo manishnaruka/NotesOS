@@ -141,46 +141,50 @@ function ToolbarBtn({
   )
 }
 
+const isMac = window.electronAPI?.platform === 'darwin'
+
 export function EditorToolbar({ editor }: EditorToolbarProps) {
   if (!editor) return null
 
   return (
-    <div className="flex items-center gap-0.5 px-4 py-2 border-b border-[var(--border)] bg-[var(--toolbar-bg)] backdrop-blur-sm flex-wrap">
-      {formatButtons.map((btn) => (
-        <ToolbarBtn key={btn.label} button={btn} editor={editor} />
-      ))}
-      <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
-      {headingButtons.map((btn) => (
-        <ToolbarBtn key={btn.label} button={btn} editor={editor} />
-      ))}
-      <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
-      {blockButtons.map((btn) => (
-        <ToolbarBtn key={btn.label} button={btn} editor={editor} />
-      ))}
-      <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
-      <button
-        onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors"
-        title="Horizontal Rule"
-      >
-        <Minus size={18} strokeWidth={2} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().undo()}
-        className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors disabled:opacity-30"
-        title="Undo"
-      >
-        <Undo2 size={18} strokeWidth={2} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().redo()}
-        className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors disabled:opacity-30"
-        title="Redo"
-      >
-        <Redo2 size={18} strokeWidth={2} />
-      </button>
+    <div className={`flex items-center gap-0.5 px-4 py-2 border-b border-[var(--border)] bg-[var(--toolbar-bg)] backdrop-blur-sm flex-wrap${isMac ? ' drag-region' : ''}`}>
+      <div className={`flex items-center gap-0.5 flex-wrap${isMac ? ' no-drag' : ''}`}>
+        {formatButtons.map((btn) => (
+          <ToolbarBtn key={btn.label} button={btn} editor={editor} />
+        ))}
+        <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
+        {headingButtons.map((btn) => (
+          <ToolbarBtn key={btn.label} button={btn} editor={editor} />
+        ))}
+        <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
+        {blockButtons.map((btn) => (
+          <ToolbarBtn key={btn.label} button={btn} editor={editor} />
+        ))}
+        <div className="w-px h-6 bg-[var(--separator)] mx-1.5" />
+        <button
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors"
+          title="Horizontal Rule"
+        >
+          <Minus size={18} strokeWidth={2} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().undo()}
+          className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors disabled:opacity-30"
+          title="Undo"
+        >
+          <Undo2 size={18} strokeWidth={2} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().redo()}
+          className="p-1.5 rounded-md text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] transition-colors disabled:opacity-30"
+          title="Redo"
+        >
+          <Redo2 size={18} strokeWidth={2} />
+        </button>
+      </div>
     </div>
   )
 }
