@@ -86,7 +86,8 @@
         "zip"
       ],
       "icon": "resources/icon.icns",
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "minimumSystemVersion": "10.15"
     },
     "linux": {
       "target": [
