@@ -19,6 +19,7 @@
     "postinstall": "electron-builder install-app-deps",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
+    "build:mac:universal": "npm run build && electron-builder --mac --universal",
     "build:linux": "npm run build && electron-builder --linux",
     "build:all": "npm run build && electron-builder --win --mac --linux",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
@@ -85,7 +86,8 @@
         "zip"
       ],
       "icon": "resources/icon.icns",
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "minimumSystemVersion": "10.15"
     },
     "linux": {
       "target": [
