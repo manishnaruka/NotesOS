@@ -13,8 +13,10 @@ jobs:
         include:
           - os: windows-latest
             build_cmd: build:win
+          # Build a universal binary (x64 + arm64) so the same artifact runs on
+          # both Intel Macs (macOS Monterey 12+) and Apple Silicon Macs.
           - os: macos-latest
-            build_cmd: build:mac
+            build_cmd: build:mac:universal
           - os: ubuntu-latest
             build_cmd: build:linux
 
